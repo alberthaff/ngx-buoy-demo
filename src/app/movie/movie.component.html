@@ -1,0 +1,40 @@
+<div>
+    <div class="card mt-4 mb-4">
+        <div class="card-header">
+            <strong>{{ movie.data?.title }}</strong>
+        </div>
+        <div class="card-body">
+            <table>
+                <tr>
+                    <td>
+                        <img [src]="movie.data?.poster" width="150" *ngIf="movie.data?.poster !== null" />
+                    </td>
+                    <td class="pl-3" style="vertical-align: top">
+                        {{ movie.data?.overview }}
+                        <hr>
+                        Rating: 0 / 10 &nbsp; &nbsp; &nbsp; &middot; &nbsp; &nbsp; &nbsp; Released: {{ movie.data?.release_date }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="card mt-4 mb-4">
+        <div class="card-header">
+            <strong>Cast</strong>
+        </div>
+        <div class="card-body">
+            <table class="table table-condensed">
+                <tr *ngFor="let role of movie.data?.roles.data">
+                    <td>
+                        <img [src]="role?.actor?.profile" width="75" *ngIf="role.actor?.profile !== null" />
+                    </td>
+                    <td class="pl-3" style="vertical-align: top">
+                        <strong>{{ role?.character }}</strong><br>
+                        Played by <a [routerLink]="['/actors/', role?.actor?.id]">{{ role?.actor?.name }}</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="card mt-4 mb-4">
+  <div class="card-header">
+    <strong>Stephen Seagal</strong>
+  </div>
+  <div class="card-body">
+    <app-movie-list [movies]="bestRatedMovies.data"></app-movie-list>
+  </div>
+  <div class="card-footer">
+    <app-paginator [query]="bestRatedMovies"></app-paginator>
+  </div>
+</div>

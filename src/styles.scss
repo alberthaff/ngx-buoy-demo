@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+.actorThumb {
+    width: 40px;
+    height: 52px;
+    background-size: cover !important;
+    background-position: center;
+    float: left;
+
+    border-radius: 50%;
+}
