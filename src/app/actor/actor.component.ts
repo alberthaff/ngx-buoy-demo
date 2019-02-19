@@ -2,83 +2,48 @@ import { Component } from '@angular/core';
 import { Buoy } from 'ngx-buoy';
 import gql from 'graphql-tag';
 import {QueryOptions} from "ngx-buoy/lib/wrappers/options";
+import {ActivatedRoute} from "@angular/router";
 @Component({
     templateUrl: './actor.component.html'
 })
 export class ActorComponent  {
 
-    public bestRatedMovies;
-    public latestAddedMovies;
+    public actor;
 
     constructor(
-        private buoy: Buoy
+        private buoy: Buoy,
+        private _route: ActivatedRoute
     ) {
-        this.bestRatedMovies = this.buoy.query(
+        this.actor = this.buoy.query(
             gql `
-            query BestRatedMovies {
-                movies(count: 5) {
-                    data {
-                        title
-                        poster
-
-                        roles(count: 5) {
-                            data {
-                                character
-                                actor {
-                                    id
-                                    name
-                                    profile
-                                }
-                            }
-                            paginatorInfo {
-                                total
+            query Actor($id: Int!) {
+                actor(id: $id) {
+                    name
+                    profile
+                    roles(count: 100) {
+                        data {
+                            character
+                            movie {
+                                id
+                                title
+                                poster
                             }
                         }
                     }
                 }
             }
-          `,
+            `,
             {
 
             },
             <QueryOptions> {
-                scope: 'movies.data'
+                scope: 'actor'
             }
         );
 
-
-        this.latestAddedMovies = this.buoy.query(
-            gql `
-            query BestRatedMovies {
-                movies(count: 5) {
-                    data {
-                        title
-                        poster
-
-                        roles(count: 5) {
-                            data {
-                                character
-                                actor {
-                                    id
-                                    name
-                                    profile
-                                }
-                            }
-                            paginatorInfo {
-                                total
-                            }
-                        }
-                    }
-                }
-            }
-          `,
-            {
-
-            },
-            <QueryOptions> {
-                scope: 'movies.data'
-            }
-        );
+        this._route.params.subscribe((queryParams) => {
+            this.actor.setVariable('id', queryParams.actorId).refetch();
+        });
 
     }
 }

@@ -22,7 +22,7 @@ export class HomeComponent  {
                         title
                         poster
 
-                        roles(count: 5) {
+                        roles(count: 4) {
                             data {
                                 character
                                 actor {
@@ -57,7 +57,7 @@ export class HomeComponent  {
                         title
                         poster
 
-                        roles(count: 5) {
+                        roles(count: 4) {
                             data {
                                 character
                                 actor {

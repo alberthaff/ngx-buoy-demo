@@ -1,11 +1,27 @@
-<div class="card mt-4 mb-4">
+<div class="card mt-4">
   <div class="card-header">
-    <strong>Stephen Seagal</strong>
+    <strong>{{ actor.data?.name }}</strong>
   </div>
   <div class="card-body">
-    <app-movie-list [movies]="bestRatedMovies.data"></app-movie-list>
+      <img [src]="actor.data?.profile" width="150" class="mr-3" *ngIf="actor.data?.profile !== null" align="left" />
   </div>
-  <div class="card-footer">
-    <app-paginator [query]="bestRatedMovies"></app-paginator>
-  </div>
+</div>
+
+<div class="card mt-4 mb-4">
+    <div class="card-header">
+        <strong>Appearances</strong>
+    </div>
+    <table class="table table-condensed">
+        <tr *ngFor="let role of actor.data?.roles.data">
+            <td>
+                <a [routerLink]="['/movies', role?.movie?.id ]">
+                    <img [src]="role?.movie?.poster" width="75" *ngIf="role.movie?.poster !== null" />
+                </a>
+            </td>
+            <td class="pl-3" style="vertical-align: top">
+                <a [routerLink]="['/movies', role?.movie?.id ]"><strong>{{ role?.movie?.title }}</strong></a><br>
+                Playing {{ role?.character }}
+            </td>
+        </tr>
+    </table>
 </div>

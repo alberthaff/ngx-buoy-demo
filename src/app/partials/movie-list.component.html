@@ -1,13 +1,14 @@
 <table>
     <tr *ngFor="let movie of movies">
-        <td class="pr-2 pb-2">
-            <div *ngIf="movie.poster === null">NO</div>
-            <img *ngIf="movie.poster !== null" [src]="movie.poster" width="100" />
+        <td class="pr-2 pb-2" style="vertical-align: top">
+            <a [routerLink]="['/movies/',movie.id]">
+                <div *ngIf="movie.poster === null">NO</div>
+                <img *ngIf="movie.poster !== null" [src]="movie.poster" width="100" />
+            </a>
         </td>
         <td style="vertical-align: top">
             <a [routerLink]="['/movies/',movie.id]"><strong>{{ movie.title }}</strong></a><br>
             Rating: 0.0 / 10<br>
-            <br>
             <strong>Cast</strong><br>
             <a *ngFor="let role of movie?.roles?.data" class="actorThumb mr-2"
                [routerLink]="['/actors/',role.actor.id]"

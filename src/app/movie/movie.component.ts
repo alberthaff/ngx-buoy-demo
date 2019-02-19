@@ -17,8 +17,8 @@ export class MovieComponent  {
     ) {
         this.movie = this.buoy.query(
             gql `
-            query BestRatedMovies {
-                movie(id: 1) {
+            query BestRatedMovies($id: Int!) {
+                movie(id: $id) {
                     title
                     poster
                     overview
@@ -38,9 +38,9 @@ export class MovieComponent  {
                       }
                 }
             }
-          `,
+            `,
             {
-                id: this.movieId
+                id: null
             },
             <QueryOptions> {
                 scope: 'movie'
@@ -48,8 +48,7 @@ export class MovieComponent  {
         );
 
         this._route.params.subscribe((queryParams) => {
-            this.movieId = queryParams.movieId;
-            this.movie.refetch();
+            this.movie.setVariable('id', queryParams.movieId).refetch();
         });
     }
 }
