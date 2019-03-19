@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
-import { Buoy } from 'ngx-buoy';
+import { Component, OnDestroy } from '@angular/core';
 import gql from 'graphql-tag';
-import {QueryOptions} from "ngx-buoy/lib/wrappers/options";
-import {ActivatedRoute} from "@angular/router";
+import { Buoy, Query } from '@buoy/client';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 @Component({
     templateUrl: './actor.component.html'
 })
-export class ActorComponent  {
+export class ActorComponent implements OnDestroy {
 
-    public actor;
+    public actor: Query;
+    private routeSubscription: Subscription;
 
     constructor(
         private buoy: Buoy,
@@ -33,17 +34,19 @@ export class ActorComponent  {
                 }
             }
             `,
+            {},
             {
-
-            },
-            <QueryOptions> {
                 scope: 'actor'
             }
         );
 
-        this._route.params.subscribe((queryParams) => {
+        this.routeSubscription = this._route.params.subscribe((queryParams) => {
             this.actor.setVariable('id', queryParams.actorId).refetch();
         });
 
+    }
+
+    ngOnDestroy(): void {
+        this.routeSubscription.unsubscribe();
     }
 }

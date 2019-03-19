@@ -9,12 +9,15 @@
         <td style="vertical-align: top">
             <a [routerLink]="['/movies/',movie.id]"><strong>{{ movie.title }}</strong></a><br>
             Rating: 0.0 / 10<br>
-            <strong>Cast</strong><br>
-            <a *ngFor="let role of movie?.roles?.data" class="actorThumb mr-2"
-               [routerLink]="['/actors/',role.actor.id]"
-               [style.background]="'url('+role.actor.profile+')'">
-            </a>
-
+            <div style="margin-top: 20px;">
+                <strong>Cast</strong><br>
+                <a *ngFor="let role of movie?.roles?.data" class="actorThumb mr-2"
+                   [routerLink]="['/actors/',role.actor.id]"
+                   [style.background]="'url('+role.actor.profile+')'">
+                </a>
+                <a [routerLink]="['/movies/',movie.id]" style="margin-top: 16px; margin-left: 10px; display: inline-block">
+                    ... {{ movie.roles.paginatorInfo.total - 4 }} more</a>
+            </div>
         </td>
     </tr>
 </table>

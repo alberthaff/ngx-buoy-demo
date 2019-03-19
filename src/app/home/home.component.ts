@@ -1,22 +1,23 @@
 import { Component } from '@angular/core';
-import { Buoy } from 'ngx-buoy';
+import { Buoy, Query } from '@buoy/client';
 import gql from 'graphql-tag';
-import {QueryOptions} from "ngx-buoy/lib/wrappers/options";
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
     templateUrl: './home.component.html'
 })
 export class HomeComponent  {
 
-    public bestRatedMovies;
-    public latestAddedMovies;
+    public movies: Query;
 
     constructor(
-        private buoy: Buoy
+        private buoy: Buoy,
+        private router: Router,
+        private route: ActivatedRoute
     ) {
-        this.bestRatedMovies = this.buoy.query(
+        this.movies = this.buoy.query(
             gql `
-            query BestRatedMovies {
-                movies(count: 5) {
+            query Movies($page: Int!, $limit: Int!) {
+                movies(page: $page, count: $limit) {
                     data {
                         id
                         title
@@ -40,44 +41,14 @@ export class HomeComponent  {
             }
           `,
             {
-
+                limit: 5 // Set the default limit
             },
-            <QueryOptions> {
-                scope: 'movies.data'
-            }
-        );
-
-
-        this.latestAddedMovies = this.buoy.query(
-            gql `
-            query BestRatedMovies {
-                movies(count: 5) {
-                    data {
-                        id
-                        title
-                        poster
-
-                        roles(count: 4) {
-                            data {
-                                character
-                                actor {
-                                    id
-                                    name
-                                    profile
-                                }
-                            }
-                            paginatorInfo {
-                                total
-                            }
-                        }
-                    }
-                }
-            }
-          `,
             {
-
-            },
-            <QueryOptions> {
+                router: {
+                    route: this.route,
+                    router: this.router
+                },
+                pagination: 'movies',
                 scope: 'movies.data'
             }
         );

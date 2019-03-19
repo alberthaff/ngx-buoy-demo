@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
-import { Buoy } from 'ngx-buoy';
+import { Component, OnDestroy } from '@angular/core';
+import { Buoy, Query } from '@buoy/client';
 import gql from 'graphql-tag';
-import {QueryOptions} from "ngx-buoy/lib/wrappers/options";
-import {ActivatedRoute} from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 @Component({
     templateUrl: './movie.component.html'
 })
-export class MovieComponent  {
+export class MovieComponent implements OnDestroy {
 
-    public movie;
-    private movieId;
+    public movie: Query;
+    private routeSubscription: Subscription;
 
     constructor(
         private buoy: Buoy,
@@ -42,13 +42,17 @@ export class MovieComponent  {
             {
                 id: null
             },
-            <QueryOptions> {
+            {
                 scope: 'movie'
             }
         );
 
-        this._route.params.subscribe((queryParams) => {
+        this.routeSubscription = this._route.params.subscribe((queryParams) => {
             this.movie.setVariable('id', queryParams.movieId).refetch();
         });
+    }
+
+    ngOnDestroy(): void {
+        this.routeSubscription.unsubscribe();
     }
 }
