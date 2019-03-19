@@ -39,10 +39,8 @@ export class HomeComponent  {
                     }
                 }
             }
-          `,
-            {
-                limit: 5 // Set the default limit
-            },
+            `,
+            {},
             {
                 router: {
                     route: this.route,
